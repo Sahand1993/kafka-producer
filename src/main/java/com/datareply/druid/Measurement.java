@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter @Setter
 public class Measurement {
     private long timestamp;
-    private boolean bool;
     private double value;
     private int plugId;
     private int roomId;

@@ -52,7 +52,7 @@ public class MeasurementsProducer {
                 int recordsSent = 0;
                 while ((nextLine = inputReader.readLine()) != null) {
                     Measurement measurement = fromCsv(nextLine);
-                    if (measurement.isBool()) {
+                    if (measurement != null) {
                         measurement.setTimestamp(System.currentTimeMillis());
 
                         producer.send(createProducerRecord(measurement));
@@ -81,12 +81,15 @@ public class MeasurementsProducer {
     private static Measurement fromCsv(String nextLine) {
         Measurement measurement = new Measurement();
         String[] values = nextLine.split(",");
-        measurement.setValue(Double.parseDouble(values[2]));
-        measurement.setBool("1".equals(values[3]));
-        measurement.setPlugId(Integer.parseInt(values[4]));
-        measurement.setRoomId(Integer.parseInt(values[5]));
-        measurement.setHouseId(Integer.parseInt(values[6]));
-        measurement.setTimestamp(System.currentTimeMillis());
-        return measurement;
+        if ("1".equals(values[3])) {
+            measurement.setValue(Double.parseDouble(values[2]));
+            measurement.setPlugId(Integer.parseInt(values[4]));
+            measurement.setRoomId(Integer.parseInt(values[5]));
+            measurement.setHouseId(Integer.parseInt(values[6]));
+            measurement.setTimestamp(System.currentTimeMillis());
+            return measurement;                
+        } else {
+            return null;
+        }
     }
 }

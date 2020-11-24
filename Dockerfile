@@ -8,7 +8,6 @@ ENV INPUT_FILE input.csv
 
 COPY pom.xml pom.xml
 COPY src/ src/
-COPY input.csv input.csv
 
 RUN mvn clean install
 
